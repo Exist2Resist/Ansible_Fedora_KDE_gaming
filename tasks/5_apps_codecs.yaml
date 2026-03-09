@@ -26,6 +26,7 @@
       - xone 
       - lpf-xone-firmware
       - xpad-noone
+      - lug-helper
       - fastfetch
       - powerline
       - btop
