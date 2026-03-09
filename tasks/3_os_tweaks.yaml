@@ -7,6 +7,14 @@
     backup: true
     backrefs: true
 
+- name: Set nvidia-drm.modset
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((?:(?!nvidia-drm.modset=1).)*?)"$'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 nvidia-drm.modset=1"'
+    backup: true
+    backrefs: true
+
 - name: Set rd.driver.blacklist
   ansible.builtin.lineinfile:
     path: /etc/default/grub
