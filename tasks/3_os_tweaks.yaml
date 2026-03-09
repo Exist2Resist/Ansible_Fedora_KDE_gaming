@@ -1,9 +1,25 @@
 ---
-- name: Enable split_lock_detect #required for games like God of War to prevent stutters
+- name: Disable split_lock_detect #required for games like God of War to prevent stutters
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((?:(?!split_lock_detect=off).)*?)"$'
     line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 split_lock_detect=off"'
+    backup: true
+    backrefs: true
+
+- name: Set rd.driver.blacklist
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((?:(?!rd.driver.blacklist=nouveau,nova_core).)*?)"$'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 rd.driver.blacklist=nouveau,nova_core"'
+    backup: true
+    backrefs: true
+
+- name: Set modprobe.blacklist
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((?:(?!modprobe.blacklist=nouveau,nova_core).)*?)"$'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 modprobe.blacklist=nouveau,nova_core"'
     backup: true
     backrefs: true
 
