@@ -6,6 +6,7 @@
     line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 split_lock_detect=off"'
     backup: true
     backrefs: true
+  notify: Update-grub
 
 - name: Set nvidia-drm.modset
   ansible.builtin.lineinfile:
@@ -14,6 +15,7 @@
     line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 nvidia-drm.modset=1"'
     backup: true
     backrefs: true
+  notify: Update-grub
 
 - name: Set rd.driver.blacklist
   ansible.builtin.lineinfile:
@@ -22,6 +24,7 @@
     line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 rd.driver.blacklist=nouveau,nova_core"'
     backup: true
     backrefs: true
+  notify: Update-grub
 
 - name: Set modprobe.blacklist
   ansible.builtin.lineinfile:
@@ -30,11 +33,9 @@
     line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 modprobe.blacklist=nouveau,nova_core"'
     backup: true
     backrefs: true
-
-- name: Update grub
-  become_user: root
-  ansible.builtin.shell: grub2-mkconfig -o /boot/grub2/grub.cfg
+  notify: Update-grub
 
 - name: Disable SELinux
   ansible.posix.selinux:
     state: disabled
+  notify: Reboot

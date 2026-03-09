@@ -15,20 +15,9 @@
     msg: "You need to be in a 'X11' session instead of 'Wayland'!\nAfter the X11 installation log into X11 session and run this again!"
   when: xdg_session.stdout != "x11"
 
-- name: Check if Plasma Workspace X11 is installed
-  ansible.builtin.shell: dnf list --installed plasma-workspace-x11 | awk -F"." 'NR==2 {print $1}'
-  resister: x11_installation
-
-- name: Install X11 in KDE (Better for Gaming)
-  become_user: root
-  ansible.builtin.dnf:
-    name:
-      - plasma-workspace-x11
-  when: xdg_session.stdout != "x11" and x11_installation.stdout != "plasma-workspace-x11"
-
 - name: End the play if requirements aren't met
   ansible.builtin.meta: end_play
-  when: xdg_session.stdout != "x11"
+  when: xdg_session.stdout != "x11" 
 
 - name: Check to see if Secure Boot is enabled
   ansible.builtin.shell: mokutil --sb-state | awk '{print $2}'
@@ -108,3 +97,4 @@
     akmods --force
     dracut --force
   when: bios_check.stdout == "UEFI" and gpu_check.stdout == "NVIDIA"
+  notify: Reboot

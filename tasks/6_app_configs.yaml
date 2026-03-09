@@ -39,20 +39,6 @@
     group: "{{ os_user }}"
     mode: '0644'
 
-- name: Create Joplin directory if it does not exist
-  ansible.builtin.file:
-    path: "{{ user_home }}/.config/joplin-desktop"
-    state: directory
-    mode: '0755'
-
-- name: Joplin
-  ansible.builtin.template:
-    src: customization/templates/joplin.j2
-    dest: "{{ user_home }}/.config/joplin-desktop/settings.json"
-    owner: "{{ os_user }}"
-    group: "{{ os_user }}"
-    mode: '0644'
-
 - name: Create MangoHud directory if it does not exist
   ansible.builtin.file:
     path: "{{ user_home }}/.config/MangoHud"
