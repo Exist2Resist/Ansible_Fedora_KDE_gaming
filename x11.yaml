@@ -1,0 +1,10 @@
+---
+- name: X11 setup
+  hosts: localhost
+  become: true
+  become_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
+  become_method: ansible.builtin.sudo
+  gather_facts: true
+  tasks:
+    - name: X11 installation
+      ansible.builtin.include_tasks: tasks/x11.yaml

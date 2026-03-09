@@ -41,12 +41,25 @@ To specify a password for sudo, run ansible-playbook with `--ask-become-pass` (`
 
 ## Running the play
 
-Ansible play test run: 
+Open a shell terminal and do the following
+```bash
+git clone https://github.com/Exist2Resist/Ansible_Fedora_KDE_gaming.git
+cd Ansible_Fedora_KDE_gaming
 ```
-ansible-playbook main.yaml --check -K
+
+You need to be logged into a Wayland session after a fresh install and run the x11 installation first.
+```bash
+ansible-playbook x11.yaml --check -K
+```
+
+Logout of the Wayland session and log into a x11 session then run one of these. 
+
+Ansible play test run: 
+```bash
+ansible-playbook fedora_kde.yaml --check -K
 ```
 
 Actual play run: 
-```
-ansible-playbook main.yaml -K
+```bash
+ansible-playbook fedora_kde.yaml -K
 ```
