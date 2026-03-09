@@ -1,0 +1,49 @@
+#---
+# - name: Check if split_lock_detect is configured in the boot command
+#   lineinfile:
+#     backup: true
+#     path: /etc/default/grub
+#     regexp: '^GRUB_CMDLINE_LINUX=".*split_lock_detect=off.*'
+#     state: absent
+#   check_mode: true
+#   register: grub_cmdline_check
+#   changed_when: false
+
+# - name: Insert split_lock_detect if missing
+#   lineinfile:
+#     backrefs: true
+#     path: /etc/default/grub
+#     regexp: "^(GRUB_CMDLINE_LINUX=\".*)\"$"
+#     line: '\1 split_lock_detect=off"'
+#   when: grub_cmdline_check.found == 0
+#   notify: update grub
+
+# - name: xone clone
+#   ansible.builtin.git:
+#     repo: https://github.com/dlundqvist/xone
+#     single_branch: yes
+#     version: master
+
+# - name: xone
+#   become_user: root
+#   ansible.builtin.shell: |
+#     cd xone
+#     ./install.sh
+
+# - name: xone firmware
+#   ansible.builtin.expect:
+#     chdir: xone
+#     command: xone-get-firmware.sh
+#     responses:
+#       "Press enter to continue\!": ""
+
+# - name: rm xone dir
+#   ansible.builtin.file: 
+#     state: absent
+#     path: xone
+
+# - name: install lug-helper
+#   become_user: root
+#   ansible.builtin.shell: |
+#     yes | dnf copr enable jackgreiner/lug-helper 
+#     yes | dnf install lug-helper

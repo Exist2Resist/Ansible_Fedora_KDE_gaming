@@ -22,6 +22,10 @@
   become_user: root
   ansible.builtin.dnf:
     name:
+      - lpf
+      - xone 
+      - lpf-xone-firmware
+      - xpad-noone
       - fastfetch
       - powerline
       - btop
@@ -41,33 +45,9 @@
       - net.davidotek.pupgui2 #ProtonUp-QT
       - com.obsproject.Studio
 
-# Comment out in favour of copr repos
-# - name: xone clone
-#   ansible.builtin.git:
-#     repo: https://github.com/dlundqvist/xone
-#     single_branch: yes
-#     version: master
-
-# - name: xone
-#   become_user: root
-#   ansible.builtin.shell: |
-#     cd xone
-#     ./install.sh
-
-# - name: xone firmware
-#   ansible.builtin.expect:
-#     chdir: xone
-#     command: xone-get-firmware.sh
-#     responses:
-#       "Press enter to continue\!": ""
-
-# - name: rm xone dir
-#   ansible.builtin.file: 
-#     state: absent
-#     path: xone
-
-# - name: install lug-helper
-#   become_user: root
-#   ansible.builtin.shell: |
-#     yes | dnf copr enable jackgreiner/lug-helper 
-#     yes | dnf install lug-helper
+- name: Install XONE
+  become_user: root
+  ansible.builtin.shell: |
+    lpf approve xone-firmware
+    lpf build xone-firmware
+    lpf install xone-firmware

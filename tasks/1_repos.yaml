@@ -1,3 +1,4 @@
+---
 - name: Enable dnf utils
   become_user: root
   ansible.builtin.dnf:
@@ -37,7 +38,7 @@
     gpgkey: https://repo.vivaldi.com/archive/linux_signing_key.pub
     enabled: true
 
-- name: Copr XONE repo
+- name: Copr XONE repo  # Need to test
   become_user: root
   ansible.builtin.yum_repository:
     name: copr:copr.fedorainfracloud.org:raymondbaker:xone-dlundqvist

@@ -1,8 +1,16 @@
 ---
-- name: Disable split locking
-  become_user: root
-  ansible.builtin.shell:
+- name: Enable split_lock_detect #required for games like God of War to prevent stutters
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((?:(?!split_lock_detect=off).)*?)"$'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 split_lock_detect=off"'
+    backup: true
+    backrefs: true
 
-- name: Disable selinx
+- name: Update grub
   become_user: root
-  ansible.builtin.shell:
+  ansible.builtin.shell: grub2-mkconfig -o /boot/grub2/grub.cfg
+
+- name: Disable SELinux
+  ansible.posix.selinux:
+    state: disabled
