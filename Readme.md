@@ -1,12 +1,16 @@
+# Info
+
+This Ansible play is used to setup Fedora KDE for a gaming scenario. It installs drivers and sets the OS up for gaming. It installs the XBOX wireless dongle driver and performs various OS tweaks to give the system the best performance.
+
 ## Assumptions
 
-This playbook is created to run on Intel and Nvidia systems with secure boot. It should also run on AMD CPU/Nvidia systems, having said that I am not interested in AMDip. There is a reason Nvidia has a 95% GPU market share as of March 2026. You need to be logged in to a X11 and not Wayland session, hence Fedora KDE. Wayland sucks and it doesn't render applications properly, doesn't matter if you're on Nvidia or AMD GPUs. If you think otherwise you are clearly NOT a power user. Albeit Wayland sucks even more on Nvidia than AMD GPUs.
+This playbook is created to run on Intel and Nvidia systems with secure boot. It should also run on AMD CPU/Nvidia systems, having said that I am not interested in AMD GPUs so this is not written for one. There is a reason Nvidia has a 95% GPU market share as of March 2026. You need to be logged in to a X11 and not Wayland session, hence Fedora KDE. Wayland sucks and it doesn't render applications properly, doesn't matter if you're on Nvidia or AMD GPUs. If you think otherwise you are clearly NOT a power user. Albeit Wayland sucks even more on Nvidia than AMD GPUs.
 
-A lot of windows/games fail to render properly in Wayland hence the existence of xWayland, gamescope and the likes; this is the dumbest thing ever too; 
-"Hey lets create a modern x window system, oh wait we need X11 compatability because it sucks! "Effectively I have no interest in Wayland maybe when it stops being a buggy, laggy sack of potatoes.
+A lot of windows/games fail to render properly in Wayland hence the existence of xWayland, gamescope and the likes; this is the dumbest thing ever too someone at some point must have said; 
+"Hey lets create a modern x window system... oh wait we need X11 compatibility because Wayland sucks!" Effectively I have no interest in Wayland, maybe when it stops being a buggy, laggy sack of potatoes I will drive it again. I also don't like any kind of HDR, so wayland is not that important to me. VRR is supported in X11 out of the box, this is the only feature I care about for gaming. Essentially X11 runs games better and smoother. I don't really care that the code base for X11 is a mess, unlike Wayland it just works and this is my experience gaming on Linux.
 
 **TLDR:**
-X11, Intel CPU, and Nvidia GPU. Secure boot is optional.<br><br>
+X11, Intel CPU, and Nvidia GPU. Secure boot is optional.
 
 # Drivers
 
