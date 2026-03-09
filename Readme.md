@@ -49,7 +49,7 @@ cd Ansible_Fedora_KDE_gaming
 
 You need to be logged into a Wayland session after a fresh install and run the x11 installation first.
 ```bash
-ansible-playbook x11.yaml --check -K
+ansible-playbook x11.yaml -K
 ```
 
 Logout of the Wayland session and log into a x11 session then run one of these. 
