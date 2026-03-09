@@ -31,3 +31,7 @@
     - name: Reboot
       ansible.builtin.reboot:
         msg: "Rebooting machine in 5 seconds"
+
+    - name: Update-grub
+      become_user: root
+      ansible.builtin.shell: grub2-mkconfig -o /boot/grub2/grub.cfg
