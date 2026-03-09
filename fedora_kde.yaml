@@ -26,3 +26,8 @@
 
     - name: Application configurations
       ansible.builtin.include_tasks: tasks/6_app_configs.yaml
+
+  handlers: 
+    - name: Reboot
+      ansible.builtin.reboot:
+        msg: "Rebooting machine in 5 seconds"

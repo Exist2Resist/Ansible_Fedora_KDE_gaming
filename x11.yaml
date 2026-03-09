@@ -8,3 +8,8 @@
   tasks:
     - name: X11 installation
       ansible.builtin.include_tasks: tasks/x11.yaml
+
+  handlers: 
+    - name: Reboot
+      ansible.builtin.reboot:
+        msg: "Rebooting machine in 5 seconds"
