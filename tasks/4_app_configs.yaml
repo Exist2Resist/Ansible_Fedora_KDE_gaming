@@ -1,0 +1,118 @@
+---
+- name: .bashrc update
+  ansible.builtin.blockinfile:
+    path: /home/{{ os_user }}/.bashrc
+    append_newline: true
+    prepend_newline: true
+    block: |2
+      
+      # Powerline
+      if [ -f `which powerline-daemon` ]; then
+        powerline-daemon -q
+        POWERLINE_BASH_CONTINUATION=1
+        POWERLINE_BASH_SELECT=1
+        . /usr/share/powerline/bash/powerline.sh
+      fi
+      
+      # Alias
+      alias la='ls -la'
+
+- name: Sysctl fix for copy progress bar and unmount drive
+  ansible.builtin.copy:
+    src: customization/config_files/99-sysctl.conf
+    dest: /etc/sysctl.d/99-sysctl.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create powerline directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ user_home }}/.config/powerline"
+    state: directory
+    mode: '0755'
+
+- name: Powerline
+  ansible.builtin.copy:
+    src: customization/config_files/powerline
+    dest: "{{ user_home }}/.config/powerline/config.json"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: '0644'
+
+- name: Create Joplin directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ user_home }}/.config/joplin-desktop"
+    state: directory
+    mode: '0755'
+
+- name: Joplin
+  ansible.builtin.template:
+    src: customization/templates/joplin.j2
+    dest: "{{ user_home }}/.config/joplin-desktop/settings.json"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: '0644'
+
+- name: Create MangoHud directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ user_home }}/.config/MangoHud"
+    state: directory
+    mode: '0755'
+
+- name: Mangohud
+  ansible.builtin.copy:
+    src: customization/config_files/mangohud
+    dest: "{{ user_home }}/.config/MangoHud/MangoHud.conf"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: '755'
+
+- name: Steam config dir
+  ansible.builtin.file:
+    path: "{{ user_home }}/.local/share/Steam"
+    state: directory
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: '0700'
+
+- name: Steam
+  ansible.builtin.copy:
+    src: customization/config_files/steam
+    dest: "{{ user_home }}/.local/share/Steam/steam_dev.cfg"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: '0755'
+
+- name: File Transfers
+  ansible.builtin.copy:
+    src: customization/config_files/99-sysctl.conf
+    dest: "{{ user_home }}/.local/share/Steam/steam_dev.cfg"
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    mode: '0755'
+
+- name: Star Citizen
+  ansible.builtin.copy:
+    src: customization/config_files/20-starcitizen-max_map_count.conf
+    dest: /etc/udev/rules.d/20-starcitizen-max_map_count.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Star Citizen Virpil Devices
+  ansible.builtin.copy:
+    src: customization/config_files/40-starcitizen-joystick-uaccess.rules
+    dest: /etc/sysctl.d/40-starcitizen-joystick-uaccess.rules
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Ntsync
+  ansible.builtin.copy:
+    src: customization/config_files/ntsync.conf
+    dest: /etc/modules-load.d/ntsync.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+# - name: Blockstream USB...

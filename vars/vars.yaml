@@ -1,0 +1,9 @@
+---
+hostname: "PewPewTer"
+cur_hostname: "{{lookup('pipe','hostname')}}"
+fedora_ver: "{{ ansible_distribution_major_version }}"
+user: "{{ lookup('ansible.builtin.env', 'USER') }}"
+os_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
+user_home: "{{ lookup('ansible.builtin.env', 'HOME') }}"
+optional_flatpaks: False
+mokpwd: "Secret"

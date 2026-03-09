@@ -1,0 +1,72 @@
+- name: Enable dnf utils
+  become_user: root
+  ansible.builtin.dnf:
+    name: dnf-utils
+
+- name: Enable 3rd party repositories
+  become_user: root
+  ansible.builtin.dnf:
+    name:
+      - fedora-workstation-repositories
+
+- name: Check flatpak repo just in case
+  ansible.builtin.shell: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+- name: Add RPMfusion free
+  become_user: root
+  ansible.builtin.yum_repository:
+    name: rpmfusion-free
+    description: RPM Fusion for Fedora {{ fedora_ver }} - Free
+    baseurl: https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ fedora_ver }}.noarch.rpm
+    enabled: true
+
+- name: Add RPMfusion non free
+  become_user: root
+  ansible.builtin.yum_repository:
+    name: rpmfusion-nonfree
+    description: RPM Fusion for Fedora {{ fedora_ver }} - Nonfree
+    baseurl: https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ fedora_ver }}.noarch.rpm
+    enabled: true
+
+- name: Vivaldi repo
+  become_user: root
+  ansible.builtin.yum_repository:
+    name: vivaldi
+    description: vivaldi
+    baseurl: https://repo.vivaldi.com/archive/rpm/x86_64
+    gpgkey: https://repo.vivaldi.com/archive/linux_signing_key.pub
+    enabled: true
+
+- name: Copr XONE repo
+  become_user: root
+  ansible.builtin.yum_repository:
+    name: copr:copr.fedorainfracloud.org:raymondbaker:xone-dlundqvist
+    description: Copr repo for xone-dlundqvist owned by raymondbaker
+    baseurl: https://download.copr.fedorainfracloud.org/results/raymondbaker/xone-dlundqvist/fedora-$releasever-$basearch/
+    gpgkey: https://download.copr.fedorainfracloud.org/results/raymondbaker/xone-dlundqvist/pubkey.gpg
+    enabled: true  
+
+- name: CoolerControl
+  become_user: root
+  ansible.builtin.yum_repository:
+    name: copr:copr.fedorainfracloud.org:codifryed:CoolerControl
+    description: Copr repo for CoolerControl owned by codifryed
+    baseurl: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/fedora-$releasever-$basearch/
+    gpgkey: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/pubkey.gpg
+    enabled: true 
+
+- name: GPU screen recorded
+  become_user: root
+  ansible.builtin.yum_repository:
+    name: copr:copr.fedorainfracloud.org:jackgreiner:lug-helper
+    description: Copr repo for CoolerControl owned by codifryed
+    baseurl: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/fedora-$releasever-$basearch/
+    gpgkey: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/pubkey.gpg
+    enabled: true 
+
+- name: Enable repos
+  become_user: root
+  ansible.builtin.shell: |
+    dnf config-manager --enable fedora-cisco-openh264 -y
+    dnf config-manager --enable rpmfusion-nonfree-nvidia-driver -y
+    dnf config-manager --enable rpmfusion-nonfree-steam -y

@@ -1,0 +1,11 @@
+---
+- name: Start steam
+  ansible.builtin.shell: steam
+
+- name: wait for steam
+  ansible.buitin.pause:
+    prompt: "Waiting on Steam to install things"
+    minutes: 5
+
+- name: Close steam
+  ansible.builtin.shell: killall -s TERM steam

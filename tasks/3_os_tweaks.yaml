@@ -1,0 +1,8 @@
+---
+- name: Disable split locking
+  become_user: root
+  ansible.builtin.shell:
+
+- name: Disable selinx
+  become_user: root
+  ansible.builtin.shell:

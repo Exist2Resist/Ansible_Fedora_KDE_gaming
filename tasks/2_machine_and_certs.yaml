@@ -1,0 +1,110 @@
+---
+- name: Set a hostname
+  become_user: root
+  ansible.builtin.hostname:
+    name: "{{ hostname }}"
+    use: systemd
+  when: hostname != cur_hostname
+
+- name: Check XDG session
+  ansible.builtin.shell: echo $XDG_SESSION_TYPE
+  register: xdg_session
+
+- name: Message when not X11 session
+  ansible.builtin.debug:
+    msg: "You need to be in a 'X11' session instead of 'Wayland'!\nAfter the X11 installation log into X11 session and run this again!"
+  when: xdg_session.stdout != "x11"
+
+- name: Check if Plasma Workspace X11 is installed
+  ansible.builtin.shell: dnf list --installed plasma-workspace-x11 | awk -F"." 'NR==2 {print $1}'
+  resister: x11_installation
+
+- name: Install X11 in KDE (Better for Gaming)
+  become_user: root
+  ansible.builtin.dnf:
+    name:
+      - plasma-workspace-x11
+  when: xdg_session.stdout != "x11" and x11_installation.stdout != "plasma-workspace-x11"
+
+- name: End the play if requirements aren't met
+  ansible.builtin.meta: end_play
+  when: xdg_session.stdout != "x11"
+
+- name: Check to see if Secure Boot is enabled
+  ansible.builtin.shell: mokutil --sb-state | awk '{print $2}'
+  register: secure_boot
+
+- name: Check for UEFI
+  ansible.builtin.shell: [ -d /sys/firmware/efi ] && echo UEFI || echo BIOS
+  register: bios_check
+
+- name: Check for GPU
+  ansible.builtin.shell: [[ $(lspci -v | less | grep -i nvidia) ]] && echo NVIDIA || echo AMD
+  register: gpu_check
+
+- name: Mokutil and prerequisites
+  become_user: root
+  ansible.builtin.dnf:
+    name:
+      - mokutil #this is redundant
+      - kmodtool
+      - akmods
+      - openssl #this is redundant
+      - dkms
+  when: bios_check.stdout == "UEFI" and secure_boot.stdout == "enabled"
+
+- name: Generate cert
+  become_user: root
+  shell: kmodgenca -a
+  when: bios_check.stdout == "UEFI" and secure_boot.stdout == "enabled"
+
+- name: check for DKMS certificate
+  become_user: root
+  ansible.builtin.stat:
+    path: /var/lib/dkms/mok.pub
+  register: dkms
+  when: bios_check.stdout == "UEFI" and secure_boot.stdout == "enabled"
+
+- name: Genarate new DKMS key if not exist
+  become_user: root
+  ansible.builtin.shell: openssl req -new -x509 -newkey rsa:2048 -keyout /var/lib/dkms/mok.key -outform DER -out /var/lib/dkms/mok.pub -nodes -days 100000 -subj "/CN=DKMS module signing key"
+  when: not dkms.stat.exists and bios_check.stdout == "UEFI" and secure_boot.stdout == "enabled"
+
+- name: import akmods cert
+  become_user: root
+  ansible.builtin.expect:
+    command: mokutil --import /etc/pki/akmods/certs/public_key.der
+    responses:
+      "input password:": "{{ mokpwd }}"
+      "input password again:": "{{ mokpwd }}"
+  when: bios_check.stdout == "UEFI" and secure_boot.stdout == "enabled"
+
+- name: import dkms cert
+  become_user: root
+  ansible.builtin.expect:
+    command: mokutil --import /var/lib/dkms/mok.pub
+    responses:
+      "input password:": "{{ mokpwd }}"
+      "input password again:": "{{ mokpwd }}"
+  when: bios_check.stdout == "UEFI" and secure_boot.stdout == "enabled"
+
+- name: Nvidia drivers and prerequisites
+  become_user: root
+  ansible.builtin.dnf: 
+    name: 
+      - gcc
+      - kernel-headers
+      - kernel-devel
+      - akmod-nvidia
+      - xorg-x11-drv-nvidia
+      - xorg-x11-drv-nvidia-libs
+      - xorg-x11-drv-nvidia-libs.i686
+      - xorg-x11-drv-nvidia-cuda
+  when: gpu_check.stdout == "NVIDIA"
+
+- name: Force akmods and dracut registration
+  become_user: root
+  ansible.builtin.shell: |
+    akmods --force
+    dracut --force
+  when: bios_check.stdout == "UEFI" and gpu_check.stdout == "NVIDIA"

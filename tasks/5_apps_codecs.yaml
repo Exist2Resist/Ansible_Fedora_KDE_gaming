@@ -1,0 +1,73 @@
+---
+- name: Codecs
+  become_user: root
+  ansible.builtin.dnf:
+    name:
+      - gstreamer1-devel
+      - gstreamer1-plugins-base-tools
+      - gstreamer1-doc
+      - gstreamer1-plugins-base-devel
+      - gstreamer1-plugins-good
+      - gstreamer1-plugins-good-extras
+      - gstreamer1-plugins-bad-free
+      - gstreamer1-plugins-bad-free-devel
+      - gstreamer1-plugins-bad-free-extras
+      - gstreamer1-plugins-ugly
+      - x265-libs
+      - libde265
+      - libavcodec-freeworld
+      - libheif-freeworld
+
+- name: Other applications
+  become_user: root
+  ansible.builtin.dnf:
+    name:
+      - fastfetch
+      - powerline
+      - btop
+      - s-tui
+      - mangohud
+      - steam
+      - lutris
+      - discord
+      - kmod-v4l2loopback #obs virtual camera
+
+# Flatpak installations
+- name: Install Gaming Flatpaks
+  community.general.flatpak:
+    name:
+      - com.heroicgameslauncher.hgl
+      - com.teamspeak.TeamSpeak3
+      - net.davidotek.pupgui2 #ProtonUp-QT
+      - com.obsproject.Studio
+
+# Comment out in favour of copr repos
+# - name: xone clone
+#   ansible.builtin.git:
+#     repo: https://github.com/dlundqvist/xone
+#     single_branch: yes
+#     version: master
+
+# - name: xone
+#   become_user: root
+#   ansible.builtin.shell: |
+#     cd xone
+#     ./install.sh
+
+# - name: xone firmware
+#   ansible.builtin.expect:
+#     chdir: xone
+#     command: xone-get-firmware.sh
+#     responses:
+#       "Press enter to continue\!": ""
+
+# - name: rm xone dir
+#   ansible.builtin.file: 
+#     state: absent
+#     path: xone
+
+# - name: install lug-helper
+#   become_user: root
+#   ansible.builtin.shell: |
+#     yes | dnf copr enable jackgreiner/lug-helper 
+#     yes | dnf install lug-helper
