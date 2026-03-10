@@ -64,10 +64,3 @@
     baseurl: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/fedora-$releasever-$basearch/
     gpgkey: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/pubkey.gpg
     enabled: true 
-
-- name: Enable repos
-  become_user: root
-  ansible.builtin.shell: |
-    dnf config-manager --enable fedora-cisco-openh264 -y
-    dnf config-manager --enable rpmfusion-nonfree-nvidia-driver -y
-    dnf config-manager --enable rpmfusion-nonfree-steam -y
