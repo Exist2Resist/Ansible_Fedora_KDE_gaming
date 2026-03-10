@@ -22,10 +22,7 @@
   become_user: root
   ansible.builtin.dnf:
     name:
-      - lpf
-      - xone 
-      - lpf-xone-firmware
-      - xpad-noone
+      - bsdtar
       - lug-helper
       - fastfetch
       - powerline
@@ -52,9 +49,23 @@
       - com.github.dail8859.NotepadNext
       - org.localsend.localsend_app
 
-- name: Install XONE
+- name: xone clone
+  ansible.builtin.git:
+    repo: https://github.com/dlundqvist/xone
+    dest: "{{ user_home }}/Downloads"
+    single_branch: yes
+    version: master
+
+- name: xone
   become_user: root
   ansible.builtin.shell: |
-    lpf approve xone-firmware
-    lpf build xone-firmware
-    lpf install xone-firmware
+    cd '{{ user_home }}/Downloads/xone'
+    ./install.sh
+
+- name: xone firmware
+  become_user: root
+  ansible.builtin.expect:
+    chdir: "{{ user_home }}/Downloads/xone/install"
+    command: firmware.sh
+    responses:
+      "Press enter to continue\!": ""
