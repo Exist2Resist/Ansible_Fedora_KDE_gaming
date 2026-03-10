@@ -10,7 +10,7 @@
 
 - name: Check if Plasma Workspace X11 is installed
   ansible.builtin.shell: dnf list --installed plasma-workspace-x11 | awk -F"." 'NR==2 {print $1}'
-  resister: x11_installation
+  register: x11_installation
 
 - name: Install X11 in KDE (Better for Gaming)
   become_user: root
