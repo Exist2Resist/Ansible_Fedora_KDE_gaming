@@ -97,4 +97,4 @@
     akmods --force
     dracut --force
   when: bios_check.stdout == "UEFI" and gpu_check.stdout == "NVIDIA"
-  notify: Reboot
+  

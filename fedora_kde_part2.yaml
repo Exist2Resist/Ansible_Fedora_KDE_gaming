@@ -1,0 +1,28 @@
+---
+- name: Fedora setup
+  hosts: localhost
+  become: true
+  become_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
+  become_method: ansible.builtin.sudo
+  gather_facts: true
+  vars_files:
+    - vars/vars.yaml
+    - vars/secret_vars.yaml
+  tasks:
+    - name: Launch apps to create config
+      ansible.builtin.include_tasks: tasks/4_app_launches.yaml
+
+    - name: Install applications and codecs
+      ansible.builtin.include_tasks: tasks/5_apps_codecs.yaml
+
+    - name: Application configurations
+      ansible.builtin.include_tasks: tasks/6_app_configs.yaml
+
+  handlers: 
+    - name: Reboot
+      ansible.builtin.reboot:
+        msg: "Rebooting machine in 5 seconds"
+
+    - name: Update-grub
+      become_user: root
+      ansible.builtin.shell: grub2-mkconfig -o /boot/grub2/grub.cfg

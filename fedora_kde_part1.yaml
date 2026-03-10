@@ -18,15 +18,6 @@
     - name: Operating System tweaks
       ansible.builtin.include_tasks: tasks/3_os_tweaks.yaml
 
-    - name: Launch apps to create config
-      ansible.builtin.include_tasks: tasks/4_app_launches.yaml
-
-    - name: Install applications and codecs
-      ansible.builtin.include_tasks: tasks/5_apps_codecs.yaml
-
-    - name: Application configurations
-      ansible.builtin.include_tasks: tasks/6_app_configs.yaml
-
   handlers: 
     - name: Reboot
       ansible.builtin.reboot:
