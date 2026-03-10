@@ -1,4 +1,11 @@
 ---
+- name: Set performance profile
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    backrefs: true
+    regexp: '^(GRUB_CMDLINE_LINUX=(?!.*cpufreq.default_governor=performance).*)"$'
+    line: '\1 cpufreq.default_governor=performance"'
+
 - name: Disable split_lock_detect
   ansible.builtin.lineinfile:
     path: /etc/default/grub
@@ -6,7 +13,7 @@
     regexp: '^(GRUB_CMDLINE_LINUX=(?!.*split_lock_detect=off).*)"$'
     line: '\1 split_lock_detect=off"'
 
-- name: Disable split_lock_detect 
+- name: Set nvidia drm 
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     backrefs: true

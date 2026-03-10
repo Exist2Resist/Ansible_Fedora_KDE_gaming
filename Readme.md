@@ -10,7 +10,7 @@ A lot of windows/games fail to render properly in Wayland hence the existence of
 "Hey lets create a modern x window system... oh wait we need X11 compatibility because Wayland sucks!" Effectively I have no interest in Wayland, maybe when it stops being a buggy, laggy sack of potatoes I will drive it again. I also don't like any kind of HDR, so wayland is not that important to me. VRR is supported in X11 out of the box provided you are using a Display Port cable, this is the only feature I care about for gaming. X11 runs games better and smoother. I don't really care that the code base for X11 is a mess, unlike Wayland it just works and this is my experience gaming on Linux.
 
 **TLDR:**
-X11, Intel CPU, and Nvidia GPU. Secure boot is optional.
+This script requires the followin X11, Intel CPU, and Nvidia GPU, and Secure boot.
 
 ## Black screen during installation
 
