@@ -18,8 +18,9 @@
       alias la='ls -la'
 
 - name: Sysctl fix for copy progress bar and unmount drive
+  become_user: root
   ansible.builtin.copy:
-    src: customization/config_files/99-sysctl.conf
+    src: customization/config_files/99-sysctl
     dest: /etc/sysctl.d/99-sysctl.conf
     owner: root
     group: root
@@ -61,7 +62,7 @@
     group: "{{ os_user }}"
     mode: '0700'
 
-- name: Steam
+- name: Steam file transfers
   ansible.builtin.copy:
     src: customization/config_files/steam
     dest: "{{ user_home }}/.local/share/Steam/steam_dev.cfg"
@@ -69,15 +70,8 @@
     group: "{{ os_user }}"
     mode: '0755'
 
-- name: Steam File Transfers
-  ansible.builtin.copy:
-    src: customization/config_files/99-sysctl.conf
-    dest: "{{ user_home }}/.local/share/Steam/steam_dev.cfg"
-    owner: "{{ os_user }}"
-    group: "{{ os_user }}"
-    mode: '0755'
-
 - name: Star Citizen
+  become_user: root
   ansible.builtin.copy:
     src: customization/config_files/20-starcitizen-max_map_count.conf
     dest: /etc/udev/rules.d/20-starcitizen-max_map_count.conf
@@ -86,6 +80,7 @@
     mode: '0644'
 
 - name: Star Citizen Virpil Devices
+  become_user: root
   ansible.builtin.copy:
     src: customization/config_files/40-starcitizen-joystick-uaccess.rules
     dest: /etc/sysctl.d/40-starcitizen-joystick-uaccess.rules
@@ -94,6 +89,7 @@
     mode: '0644'
 
 - name: Ntsync
+  become_user: root
   ansible.builtin.copy:
     src: customization/config_files/ntsync.conf
     dest: /etc/modules-load.d/ntsync.conf

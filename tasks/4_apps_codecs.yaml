@@ -52,7 +52,7 @@
 - name: xone clone
   ansible.builtin.git:
     repo: https://github.com/dlundqvist/xone
-    dest: "{{ user_home }}/Downloads"
+    dest: "{{ user_home }}/Downloads/xone"
     single_branch: yes
     version: master
 
@@ -68,4 +68,4 @@
     chdir: "{{ user_home }}/Downloads/xone/install"
     command: firmware.sh
     responses:
-      "Press enter to continue\!": ""
+      "Press enter to continue!": ""
