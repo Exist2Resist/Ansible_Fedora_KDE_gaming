@@ -69,7 +69,7 @@
     group: "{{ os_user }}"
     mode: '0755'
 
-- name: File Transfers
+- name: Steam File Transfers
   ansible.builtin.copy:
     src: customization/config_files/99-sysctl.conf
     dest: "{{ user_home }}/.local/share/Steam/steam_dev.cfg"
