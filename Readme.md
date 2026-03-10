@@ -41,11 +41,6 @@ Upgrade ansible:
 python3 -m pip install --upgrade --user ansible
 ```
 
-Install collections:
-```bash
-ansible-galaxy collection install community.general
-```
-
 To specify a password for sudo, run ansible-playbook with `--ask-become-pass` (`-K` for short). If you run a playbook utilizing become and the playbook seems to hang, most likely it is stuck at the privilege escalation prompt. Stop it with `CTRL-c`, then execute the playbook with `-K` and the appropriate password.
 
 ## Running the play
