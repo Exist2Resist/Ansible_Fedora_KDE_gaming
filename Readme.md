@@ -59,7 +59,10 @@ Ansible play test run:
 ansible-playbook fedora_kde.yaml --check -K
 ```
 
+The system will reboot after running part 1 hence it is split in to 2 plays.
 Actual play run: 
 ```bash
-ansible-playbook fedora_kde.yaml -K
+ansible-playbook fedora_kde_part1.yaml -K
+# After system reboot
+ansible-playbook fedora_kde_part2.yaml -K
 ```
