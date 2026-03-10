@@ -1,21 +1,17 @@
 ---
-- name: Disable split_lock_detect #required for games like God of War to prevent stutters
+- name: Disable split_lock_detect
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((?:(?!split_lock_detect=off).)*?)"$'
-    line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 split_lock_detect=off"'
-    backup: true
     backrefs: true
-  notify: Update-grub
+    regexp: '^(GRUB_CMDLINE_LINUX=(?!.*split_lock_detect=off).*)"$'
+    line: '\1 split_lock_detect=off"'
 
-- name: Set nvidia-drm.modset
+- name: Disable split_lock_detect 
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((?:(?!nvidia-drm.modset=1).)*?)"$'
-    line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 nvidia-drm.modset=1"'
-    backup: true
     backrefs: true
-  notify: Update-grub
+    regexp: '^(GRUB_CMDLINE_LINUX=(?!.*nvidia-drm.modset=1).*)"$'
+    line: '\1 nvidia-drm.modset=1"'
 
 - name: Set rd.driver.blacklist
   ansible.builtin.lineinfile:
@@ -24,7 +20,6 @@
     line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 rd.driver.blacklist=nouveau,nova_core"'
     backup: true
     backrefs: true
-  notify: Update-grub
 
 - name: Set modprobe.blacklist
   ansible.builtin.lineinfile:
@@ -36,6 +31,9 @@
   notify: Update-grub
 
 - name: Disable SELinux
-  ansible.posix.selinux:
-    state: disabled
+  become_user: root
+  ansible.builtin.lineinfile: 
+    path: /etc/selinux/config 
+    regexp: '^SELINUX=.*' 
+    line: 'SELINUX=disabled'
   notify: Reboot

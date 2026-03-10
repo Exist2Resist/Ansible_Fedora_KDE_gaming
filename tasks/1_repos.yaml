@@ -13,21 +13,13 @@
 - name: Check flatpak repo just in case
   ansible.builtin.shell: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
-- name: Add RPMfusion free
-  become_user: root
-  ansible.builtin.yum_repository:
-    name: rpmfusion-free
-    description: RPM Fusion for Fedora {{ fedora_ver }} - Free
-    baseurl: https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ fedora_ver }}.noarch.rpm
-    enabled: true
-
-- name: Add RPMfusion non free
-  become_user: root
-  ansible.builtin.yum_repository:
-    name: rpmfusion-nonfree
-    description: RPM Fusion for Fedora {{ fedora_ver }} - Nonfree
-    baseurl: https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ fedora_ver }}.noarch.rpm
-    enabled: true
+# - name: Enable RPM Fusion repositories
+#   become_user: root
+#   ansible.builtin.dnf:
+#     name:
+#       - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm
+#       - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm
+#     state: present
 
 - name: Vivaldi repo
   become_user: root

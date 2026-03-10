@@ -3,11 +3,6 @@
   ansible.builtin.shell: echo $XDG_SESSION_TYPE
   register: xdg_session
 
-- name: Message when not X11 session
-  ansible.builtin.debug:
-    msg: "You need to be in a 'X11' session instead of 'Wayland'!\nAfter the X11 installation log into X11 session and run this again!"
-  when: xdg_session.stdout != "x11"
-
 - name: Check if Plasma Workspace X11 is installed
   ansible.builtin.shell: dnf list --installed plasma-workspace-x11 | awk -F"." 'NR==2 {print $1}'
   register: x11_installation
@@ -19,6 +14,7 @@
       - plasma-workspace-x11
   when: xdg_session.stdout != "x11" and x11_installation.stdout != "plasma-workspace-x11"
 
-- name: End the play if requirements aren't met
-  ansible.builtin.meta: end_play
+- name: Print Message
+  ansible.builtin.debug: 
+    msg: "After the X11 installation log out of the Plasma Wayland session and log into a Plasma X11 session, then run the `fedora_kde_part1.yaml` play!"
   when: xdg_session.stdout != "x11"

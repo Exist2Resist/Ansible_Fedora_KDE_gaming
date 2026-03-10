@@ -24,11 +24,11 @@
   register: secure_boot
 
 - name: Check for UEFI
-  ansible.builtin.shell: [ -d /sys/firmware/efi ] && echo UEFI || echo BIOS
+  ansible.builtin.shell: "[ -d /sys/firmware/efi ] && echo UEFI || echo BIOS"
   register: bios_check
 
 - name: Check for GPU
-  ansible.builtin.shell: [[ $(lspci -v | less | grep -i nvidia) ]] && echo NVIDIA || echo AMD
+  ansible.builtin.shell: "[[ $(lspci -v | less | grep -i nvidia) ]] && echo NVIDIA || echo AMD"
   register: gpu_check
 
 - name: Mokutil and prerequisites
@@ -97,4 +97,4 @@
     akmods --force
     dracut --force
   when: bios_check.stdout == "UEFI" and gpu_check.stdout == "NVIDIA"
-  
+
