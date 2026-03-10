@@ -12,6 +12,15 @@ A lot of windows/games fail to render properly in Wayland hence the existence of
 **TLDR:**
 X11, Intel CPU, and Nvidia GPU. Secure boot is optional.
 
+## Black screen during installation
+
+Sometimes when booting into the graphical installer you will encounter a continuous black screen and the installer will never load.
+During the grub selection screen move the up down arrows on the keyboard to stop the grub timer, then highlight the option to install and press `e` on the keyboard. Move down to the line that starts with `linux` and at the end of it add `nomodeset` then press `ctrl + x` on the keyboard to boot. This should fix the graphical installer black screen/not booting. 
+
+## Mok enrollment
+
+The default mok enrollment password is `Secret` and this is set in the `vars/vars.yaml` file. 
+
 # Drivers
 
 This script installs the XONE copr repo and driver for Microsoft wireless dongle
@@ -63,6 +72,6 @@ The system will reboot after running part 1 hence it is split in to 2 plays.
 Actual play run: 
 ```bash
 ansible-playbook fedora_kde_part1.yaml -K
-# After system reboot
+# The system will reboot between these two plays, run part2 after that. 
 ansible-playbook fedora_kde_part2.yaml -K
 ```
