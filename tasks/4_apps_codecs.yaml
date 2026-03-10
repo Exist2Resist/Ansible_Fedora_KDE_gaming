@@ -36,6 +36,7 @@
       - lutris
       - discord
       - kmod-v4l2loopback #obs virtual camera
+      - coolercontrol
 
 - name: Install Gaming Flatpaks
   community.general.flatpak:

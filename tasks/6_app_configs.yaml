@@ -100,3 +100,7 @@
     owner: root
     group: root
     mode: '0644'
+
+- name: Coolercontrol systemd
+  become_user: root
+  ansible.builtin.shell: systemctl enable --now coolercontrold
