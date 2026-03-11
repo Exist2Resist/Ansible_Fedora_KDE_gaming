@@ -28,6 +28,7 @@
   become_user: root
   ansible.builtin.dnf:
     name:
+      - bsdtar
       - fastfetch
       - powerline
       - btop
