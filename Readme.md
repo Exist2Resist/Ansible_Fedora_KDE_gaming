@@ -21,10 +21,6 @@ During the grub selection screen move the up down arrows on the keyboard to stop
 
 The default mok enrollment password is `Secret` and this is set in the `vars/vars.yaml` file. 
 
-# Drivers
-
-This script installs the XONE copr repo and driver for Microsoft wireless dongle
-
 # Ansible for Fedora customization
 
 Install ansible and prerequisites:
