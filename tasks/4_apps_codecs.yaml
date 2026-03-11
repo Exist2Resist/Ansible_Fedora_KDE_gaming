@@ -18,12 +18,16 @@
       - libavcodec-freeworld
       - libheif-freeworld
 
+- name: install lug-helper
+  become_user: root
+  ansible.builtin.shell: |
+    yes | dnf copr enable jackgreiner/lug-helper 
+    yes | dnf install lug-helper
+
 - name: Other applications
   become_user: root
   ansible.builtin.dnf:
     name:
-      - bsdtar
-      - lug-helper
       - fastfetch
       - powerline
       - btop
@@ -31,7 +35,6 @@
       - mangohud
       - steam
       - lutris
-      - discord
       - kmod-v4l2loopback #obs virtual camera
       - coolercontrol
 
@@ -72,7 +75,7 @@
 
 - name: Notify to close steam manually
   ansible.builtin.debug: 
-    msg: "Please wait for steam to start up, once you see the login screen close it manually and the play will continue.
+    msg: "Please wait for steam to start up, once you see the login screen close it manually and the play will continue."
 
 - name: Start steam
   ansible.builtin.shell: steam

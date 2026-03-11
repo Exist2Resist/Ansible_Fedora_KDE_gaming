@@ -1,5 +1,6 @@
 ---
 - name: Set performance profile
+  become_user: root
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     backrefs: true
@@ -7,6 +8,7 @@
     line: '\1 cpufreq.default_governor=performance"'
 
 - name: Disable split_lock_detect
+  become_user: root
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     backrefs: true
@@ -14,6 +16,7 @@
     line: '\1 split_lock_detect=off"'
 
 - name: Set nvidia drm 
+  become_user: root
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     backrefs: true
@@ -21,6 +24,7 @@
     line: '\1 nvidia-drm.modset=1"'
 
 - name: Set rd.driver.blacklist
+  become_user: root
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((?:(?!rd.driver.blacklist=nouveau,nova_core).)*?)"$'
@@ -29,6 +33,7 @@
     backrefs: true
 
 - name: Set modprobe.blacklist
+  become_user: root
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((?:(?!modprobe.blacklist=nouveau,nova_core).)*?)"$'
