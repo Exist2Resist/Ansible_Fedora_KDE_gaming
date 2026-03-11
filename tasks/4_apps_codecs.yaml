@@ -69,7 +69,7 @@
   become_user: root
   ansible.builtin.expect:
     chdir: "{{ user_home }}/Downloads/xone/install"
-    command: firmware.sh
+    command: ./firmware.sh
     responses:
       "Press enter to continue!": ""
 
