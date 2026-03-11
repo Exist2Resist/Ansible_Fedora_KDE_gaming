@@ -74,11 +74,11 @@
     gpgkey: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/pubkey.gpg
     enabled: true 
 
-- name: GPU screen recorded
-  become_user: root
-  ansible.builtin.yum_repository:
-    name: copr:copr.fedorainfracloud.org:jackgreiner:lug-helper
-    description: Copr repo for CoolerControl owned by codifryed
-    baseurl: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/fedora-$releasever-$basearch/
-    gpgkey: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/pubkey.gpg
-    enabled: true 
+# - name: GPU screen recorded
+#   become_user: root
+#   ansible.builtin.yum_repository:
+#     name: copr:copr.fedorainfracloud.org:jackgreiner:lug-helper
+#     description: Copr repo for CoolerControl owned by codifryed
+#     baseurl: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/fedora-$releasever-$basearch/
+#     gpgkey: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/pubkey.gpg
+#     enabled: true 
