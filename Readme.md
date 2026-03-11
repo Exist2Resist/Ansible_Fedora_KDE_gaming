@@ -43,7 +43,15 @@ python3 -m pip install --upgrade --user ansible
 
 To specify a password for sudo, run ansible-playbook with `--ask-become-pass` (`-K` for short). If you run a playbook utilizing become and the playbook seems to hang, most likely it is stuck at the privilege escalation prompt. Stop it with `CTRL-c`, then execute the playbook with `-K` and the appropriate password.
 
-## Running the play
+## Testing a playbook
+
+Using a `--check` command can test a playbook without making changes. Mind you this is not a good representation of what the playbook will do. 
+
+```bash
+ansible-playbook my_playbook.yaml --check -K
+```
+
+## Running the playbooks
 
 Open a shell terminal and do the following
 ```bash
@@ -54,18 +62,13 @@ cd Ansible_Fedora_KDE_gaming
 You need to be logged into a Wayland session after a fresh install, which by default you are, and run the x11 installation first.
 You can check what session you are logged into by running the following in a Terminal shell: `echo $XDG_SESSION_TYPE`, if it is `Wayland` run the following.
 ```bash
-ansible-playbook x11.yaml -K
+ansible-playbook fedora_x11_install.yaml -K
 ```
 
 Logout of the Wayland session and log into a x11 session then run one of these. 
 
-Ansible play test run: 
-```bash
-ansible-playbook fedora_kde.yaml --check -K
-```
-
 The system will reboot after running part 1 hence it is split in to 2 plays.
-Actual play run: 
+Then we will run the actual playbooks, there  are two parts.
 ```bash
 ansible-playbook fedora_kde_part1.yaml -K
 # The system will reboot between these two plays, run part2 after that. 
