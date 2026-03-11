@@ -69,3 +69,10 @@
     command: firmware.sh
     responses:
       "Press enter to continue!": ""
+
+- name: Notify to close steam manually
+  ansible.builtin.debug: 
+    msg: "Please wait for steam to start up, once you see the login screen close it manually and the play will continue.
+
+- name: Start steam
+  ansible.builtin.shell: steam

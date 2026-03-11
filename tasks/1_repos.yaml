@@ -56,14 +56,14 @@
     gpgkey: https://repo.vivaldi.com/archive/linux_signing_key.pub
     enabled: true
 
-- name: Copr XONE repo  # Need to test
-  become_user: root
-  ansible.builtin.yum_repository:
-    name: copr:copr.fedorainfracloud.org:raymondbaker:xone-dlundqvist
-    description: Copr repo for xone-dlundqvist owned by raymondbaker
-    baseurl: https://download.copr.fedorainfracloud.org/results/raymondbaker/xone-dlundqvist/fedora-$releasever-$basearch/
-    gpgkey: https://download.copr.fedorainfracloud.org/results/raymondbaker/xone-dlundqvist/pubkey.gpg
-    enabled: true  
+# - name: Copr XONE repo  # Need to test
+#   become_user: root
+#   ansible.builtin.yum_repository:
+#     name: copr:copr.fedorainfracloud.org:raymondbaker:xone-dlundqvist
+#     description: Copr repo for xone-dlundqvist owned by raymondbaker
+#     baseurl: https://download.copr.fedorainfracloud.org/results/raymondbaker/xone-dlundqvist/fedora-$releasever-$basearch/
+#     gpgkey: https://download.copr.fedorainfracloud.org/results/raymondbaker/xone-dlundqvist/pubkey.gpg
+#     enabled: true  
 
 - name: CoolerControl
   become_user: root

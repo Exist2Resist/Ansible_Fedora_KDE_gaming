@@ -9,14 +9,11 @@
     - vars/vars.yaml
     - vars/secret_vars.yaml
   tasks:
-    - name: Launch apps to create config
+    - name: Install applications and codecs
       ansible.builtin.include_tasks: tasks/4_apps_codecs.yaml
 
-    - name: Install applications and codecs
-      ansible.builtin.include_tasks: tasks/5_app_launches.yaml
-
     - name: Application configurations
-      ansible.builtin.include_tasks: tasks/6_app_configs.yaml
+      ansible.builtin.include_tasks: tasks/5_app_configs.yaml
 
   handlers: 
     - name: Reboot
