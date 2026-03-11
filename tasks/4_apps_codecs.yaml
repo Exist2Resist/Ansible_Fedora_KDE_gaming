@@ -38,6 +38,7 @@
       - lutris
       - kmod-v4l2loopback #obs virtual camera
       - coolercontrol
+      - vivaldi-stable
 
 - name: Install Gaming Flatpaks
   community.general.flatpak:
