@@ -1,3 +1,8 @@
+# Installation
+
+A demo installation is available on Youtube.<br>
+https://youtu.be/fRCUcSbjNZo
+
 # Info
 
 This Ansible play is used to setup Fedora KDE for a gaming scenario. It installs drivers and sets the OS up for gaming. It installs the XBOX wireless dongle driver and performs various OS tweaks to give the system the best performance.
