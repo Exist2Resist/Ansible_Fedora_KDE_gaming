@@ -1,11 +1,11 @@
 ---
-- name: Set performance profile
-  become_user: root
-  ansible.builtin.lineinfile:
-    path: /etc/default/grub
-    backrefs: true
-    regexp: '^(GRUB_CMDLINE_LINUX=(?!.*cpufreq.default_governor=performance).*)"$'
-    line: '\1 cpufreq.default_governor=performance"'
+# - name: Set performance profile
+#   become_user: root
+#   ansible.builtin.lineinfile:
+#     path: /etc/default/grub
+#     backrefs: true
+#     regexp: '^(GRUB_CMDLINE_LINUX=(?!.*cpufreq.default_governor=performance).*)"$'
+#     line: '\1 cpufreq.default_governor=performance"'
 
 - name: Disable split_lock_detect
   become_user: root
