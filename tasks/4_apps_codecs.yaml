@@ -48,6 +48,7 @@
       - net.davidotek.pupgui2 #ProtonUp-QT
       - com.obsproject.Studio
       - io.github.benjamimgois.goverlay
+      - io.github.radiolamp.mangojuice
 
 - name: Other Flatpaks
   community.general.flatpak:

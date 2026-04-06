@@ -35,11 +35,11 @@
   become_user: root
   ansible.builtin.dnf:
     name:
-      - mokutil #this is redundant
+      - openssl #this is redundant
+      - mokutil #this is redundant for the most part
+      - dkms
       - kmodtool
       - akmods
-      - openssl #this is redundant
-      - dkms
   when: bios_check.stdout == "UEFI" and secure_boot.stdout == "enabled"
 
 - name: Generate cert
@@ -82,19 +82,24 @@
   ansible.builtin.dnf: 
     name: 
       - gcc
+      - kernel-devel-matched 
       - kernel-headers
       - kernel-devel
-      - akmod-nvidia
-      - xorg-x11-drv-nvidia
-      - xorg-x11-drv-nvidia-libs
-      - xorg-x11-drv-nvidia-libs.i686
-      - xorg-x11-drv-nvidia-cuda
+      - nvidia-open
+      - kmod-nvidia-open-dkms
+      - xorg-x11-nvidia
+      - nvidia-driver-libs.i686
+      - nvidia-driver-cuda-libs.i686
   when: gpu_check.stdout == "NVIDIA"
 
-- name: Force akmods and dracut registration
+- name: Check if Nvidia driver installed and registered with DKMS
+  ansible.builtin.shell: |
+    if [[ $(dkms status | grep nvidia) ]]; then echo "registered"; else echo "failed"; fi
+  register: dkms_nvidia
+
+- name: Force dracut registration
   become_user: root
   ansible.builtin.shell: |
-    akmods --force
     dracut --force
-  when: bios_check.stdout == "UEFI" and gpu_check.stdout == "NVIDIA"
+  when: bios_check.stdout == "UEFI" and gpu_check.stdout == "NVIDIA" and dkms_nvidia.stdout == "registered"
 

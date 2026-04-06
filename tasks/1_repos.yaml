@@ -13,6 +13,12 @@
 - name: Check flatpak repo just in case
   ansible.builtin.shell: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
+- name: Disable repositories
+  become_user: root
+  ansible.builtin.shell: |
+    dnf config-manager setopt rpmfusion-nonfree-nvidia-driver.enabled=0
+    dnf config-manager setopt google-chrome.enabled=0
+
 # - name: Enable RPM Fusion repositories
 #   become_user: root
 #   ansible.builtin.dnf:
@@ -47,6 +53,11 @@
     name: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ fedora_ver }}.noarch.rpm"
     state: present
 
+- name: Nvidia repo
+  become_user: root
+  ansible.builtin.shell: |
+    dnf config-manager addrepo --from-repofile=https://developer.download.nvidia.com/compute/cuda/repos/fedora{{ fedora_ver }}/x86_64/cuda-fedora{{ fedora_ver }}.repo
+
 - name: Vivaldi repo
   become_user: root
   ansible.builtin.yum_repository:
@@ -56,7 +67,7 @@
     gpgkey: https://repo.vivaldi.com/archive/linux_signing_key.pub
     enabled: true
 
-# - name: Copr XONE repo  # Need to test
+# - name: Copr XONE repo
 #   become_user: root
 #   ansible.builtin.yum_repository:
 #     name: copr:copr.fedorainfracloud.org:raymondbaker:xone-dlundqvist

@@ -1,3 +1,8 @@
+# WARNING!
+
+This is the new version of the script which aims to replace RPMfusion nvidia drivers with drivers from an Nvidia repo.
+Be warned this script has not been tested.
+
 # Installation
 
 A demo installation is available on Youtube.<br>
