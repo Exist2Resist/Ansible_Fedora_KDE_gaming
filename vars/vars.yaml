@@ -5,4 +5,5 @@ fedora_ver: "{{ ansible_distribution_major_version }}"
 user: "{{ lookup('ansible.builtin.env', 'USER') }}"
 os_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
 user_home: "{{ lookup('ansible.builtin.env', 'HOME') }}"
+rnnoise: "stereo" # type of mono or stereo
 mokpwd: "Secret"

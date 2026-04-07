@@ -56,6 +56,52 @@
       - com.github.dail8859.NotepadNext
       - org.localsend.localsend_app
 
+# rnnoise 
+- name: Create rnnoise directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ user_home }}/.config/pipewire/pipewire.conf.d/"
+    state: directory
+    mode: '0755'
+
+- name: Copy rnnoise config file
+  ansible.builtin.template:
+    src: customization/templates/denoising.j2
+    dest: "{{ user_home }}/.config/pipewire/pipewire.conf.d/99-input-denoising.conf"  
+
+- name: Download rnnoise # need to add check for latest version
+  ansible.builtin.get_url:
+    url: https://github.com/werman/noise-suppression-for-voice/releases/download/v1.10/linux-rnnoise.zip
+    dest: "{{ user_home }}/Downloads"
+    mode: '0644'
+
+- name: Unarchive rnnoise
+  ansible.builtin.unarchive:
+    src: "{{ user_home }}/Downloads/linux-rnnoise.zip"
+    dest: "{{ user_home }}/Downloads/"
+
+- name: Copy rnnoise .so file
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: '0644'
+  loop: 
+    - src: "{{ user_home }}/Downloads/linux-rnnoise/ladspa/librnnoise_ladspa.so"
+      dest: "{{ user_home }}/bin/librnnoise_ladspa.so"
+    - src: "{{ user_home }}/Downloads/linux-rnnoise/rnnoise_mono.lv2/librnnoise_mono.so"
+      dest: "{{ user_home }}/bin/librnnoise_mono.so"
+    - src: "{{ user_home }}/Downloads/linux-rnnoise/rnnoise_stereo.lv2/librnnoise_stereo.so"
+      dest: "{{ user_home }}/bin/librnnoise_stereo.so"
+
+- name: Restart pipewire and cleanup # need to add check for latest version
+  become_user: root
+  ansible.builtin.shell: |
+    systemctl restart --user pipewire.service
+    # cleanup
+    rm ./linux_rnnoise.zip && rm -rf ./linux-rnnoise
+
+# xone
 - name: xone clone
   ansible.builtin.git:
     repo: https://github.com/dlundqvist/xone
