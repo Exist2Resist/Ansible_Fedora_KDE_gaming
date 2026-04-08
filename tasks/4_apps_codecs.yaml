@@ -1,5 +1,13 @@
 ---
-- name: Codecs
+- name: Remove unwanted packages
+  ansible.builtin.package:
+    name:
+      - tuned
+      - amd-gpu-firmware
+      - atheros-firmware
+    state: absent
+
+- name: Codecs and tools
   become_user: root
   ansible.builtin.dnf:
     name:
@@ -15,14 +23,19 @@
       - gstreamer1-plugins-ugly
       - x265-libs
       - libde265
+      - libva-utils
       - libavcodec-freeworld
       - libheif-freeworld
+      - libva-intel-media-driver
+      - igt-gpu-tools
+      - lm_sensors
 
 - name: install lug-helper
   become_user: root
   ansible.builtin.shell: |
     yes | dnf copr enable jackgreiner/lug-helper 
     yes | dnf install lug-helper
+  when: starcitizen == "enabled"
 
 - name: Other applications
   become_user: root
@@ -98,7 +111,6 @@
   become_user: root
   ansible.builtin.shell: |
     systemctl restart --user pipewire.service
-    # cleanup
     rm ./linux_rnnoise.zip && rm -rf ./linux-rnnoise
 
 # xone
@@ -108,12 +120,14 @@
     dest: "{{ user_home }}/Downloads/xone"
     single_branch: yes
     version: master
+  when: xboxadapter == "enabled"
 
 - name: xone
   become_user: root
   ansible.builtin.shell: |
     cd '{{ user_home }}/Downloads/xone'
     ./install.sh
+  when: xboxadapter == "enabled"
 
 - name: xone firmware
   become_user: root
@@ -122,6 +136,7 @@
     command: ./firmware.sh
     responses:
       "Press enter to continue!": ""
+  when: xboxadapter == "enabled"
 
 - name: Notify to close steam manually
   ansible.builtin.debug: 

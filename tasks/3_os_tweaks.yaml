@@ -42,6 +42,12 @@
     backrefs: true
   notify: Update-grub
 
+- name: Enable 'out of memory daemon'
+  ansible.builtin.service:
+    name: systemd-oomd
+    enabled: true
+    state: started
+
 - name: Disable SELinux
   become_user: root
   ansible.builtin.lineinfile: 
@@ -49,3 +55,6 @@
     regexp: '^SELINUX=.*' 
     line: 'SELINUX=disabled'
   notify: Reboot
+
+# need to run the following 
+# sudo dnf clean 'all' && sudo dnf autoremove -y && sudo dnf update -y && sync
