@@ -111,7 +111,14 @@
   become_user: root
   ansible.builtin.shell: |
     systemctl restart --user pipewire.service
-    rm ./linux_rnnoise.zip && rm -rf ./linux-rnnoise
+
+- name: Cleanup directories and files
+  ansible.builtin.file: 
+    state: absent
+    path: "{{ item }}"
+    loop: 
+      - "{{ user_home }}/Downloads/linux-rnnoise"
+      - "{{ user_home }}/Downloads/linux-rnnoise.zip"
 
 # xone
 - name: xone clone
