@@ -2,7 +2,7 @@
 - name: Remove unwanted packages
   ansible.builtin.package:
     name:
-      - tuned
+      - tuned # removing this will always put the system in `Performance` mode
       - amd-gpu-firmware
       - atheros-firmware
     state: absent
