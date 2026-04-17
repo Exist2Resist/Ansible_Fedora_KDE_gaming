@@ -13,9 +13,11 @@ cpu_temp
 ram
 vram
 fps
+fps_metrics=avg,0.01
 frame_timing
 frametime
 toggle_hud=F8
+reset_fps_metrics=F9
 resolution
 wine
 vulkan_driver
