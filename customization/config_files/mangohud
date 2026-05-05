@@ -21,3 +21,5 @@ reset_fps_metrics=F9
 resolution
 wine
 vulkan_driver
+log_interval=1000
+toggle_logging=Shift_L+F2
