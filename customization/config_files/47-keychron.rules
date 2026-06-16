@@ -1,0 +1,2 @@
+# Keychron to allow control and customization from https://launcher.keychron.com
+KERNEL=="hidraw*", ATTRS{idVendor}=="3434", MODE="0666"
