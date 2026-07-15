@@ -9,3 +9,4 @@ mokpwd: "Secret" # Used in MOK enrollment
 rnnoise: "stereo" # type of mono or stereo
 xboxadapter: "enabled" # enable will install the xbox wireless adapter, any other value will not
 starcitizen: "enabled" # installs lug helper for Star Citizen installation
+secureboot: "enabled" # isntalls OS with secure boot enabled # not yet implemented

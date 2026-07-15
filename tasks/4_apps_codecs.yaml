@@ -30,11 +30,18 @@
       - igt-gpu-tools
       - lm_sensors
 
-- name: install lug-helper
+# - name: install lug-helper
+#   become_user: root
+#   ansible.builtin.shell: |
+#     yes | dnf copr enable jackgreiner/lug-helper 
+#     yes | dnf install lug-helper
+#   when: starcitizen == "enabled"
+
+- name: Install lug-helper
   become_user: root
-  ansible.builtin.shell: |
-    yes | dnf copr enable jackgreiner/lug-helper 
-    yes | dnf install lug-helper
+  ansible.builtin.dnf:
+    name:
+      - lug-helper
   when: starcitizen == "enabled"
 
 - name: Other applications

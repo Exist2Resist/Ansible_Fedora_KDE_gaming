@@ -19,14 +19,6 @@
     dnf config-manager setopt rpmfusion-nonfree-nvidia-driver.enabled=0
     dnf config-manager setopt google-chrome.enabled=0
 
-# - name: Enable RPM Fusion repositories
-#   become_user: root
-#   ansible.builtin.dnf:
-#     name:
-#       - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{  fedora_ver }}.noarch.rpm
-#       - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ fedora_ver }}.noarch.rpm
-#     state: present
-
 - name: Import RPM Fusion free GPG key
   become_user: root
   ansible.builtin.rpm_key:
@@ -58,6 +50,12 @@
   ansible.builtin.shell: |
     dnf config-manager addrepo --from-repofile=https://developer.download.nvidia.com/compute/cuda/repos/fedora{{ fedora_ver }}/x86_64/cuda-fedora{{ fedora_ver }}.repo
 
+- name: Copr Xlibre repo
+  become_user: root
+  community.general.copr:
+    state: enabled
+    name: '@xlibre/xlibre-xserver'
+
 - name: Vivaldi repo
   become_user: root
   ansible.builtin.yum_repository:
@@ -66,15 +64,6 @@
     baseurl: https://repo.vivaldi.com/archive/rpm/x86_64
     gpgkey: https://repo.vivaldi.com/archive/linux_signing_key.pub
     enabled: true
-
-# - name: Copr XONE repo
-#   become_user: root
-#   ansible.builtin.yum_repository:
-#     name: copr:copr.fedorainfracloud.org:raymondbaker:xone-dlundqvist
-#     description: Copr repo for xone-dlundqvist owned by raymondbaker
-#     baseurl: https://download.copr.fedorainfracloud.org/results/raymondbaker/xone-dlundqvist/fedora-$releasever-$basearch/
-#     gpgkey: https://download.copr.fedorainfracloud.org/results/raymondbaker/xone-dlundqvist/pubkey.gpg
-#     enabled: true  
 
 - name: CoolerControl
   become_user: root
@@ -85,6 +74,19 @@
     gpgkey: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/pubkey.gpg
     enabled: true 
 
+- name: Copr GPU screen recorder
+  become_user: root
+  community.general.copr:
+    state: enabled
+    name: brycensranch/gpu-screen-recorder-git
+
+- name: Copr lug-helper
+  become_user: root
+  community.general.copr:
+    state: enabled
+    name: jackgreiner/lug-helper
+  when: starcitizen == "enabled"
+
 # - name: GPU screen recorded
 #   become_user: root
 #   ansible.builtin.yum_repository:
@@ -93,3 +95,20 @@
 #     baseurl: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/fedora-$releasever-$basearch/
 #     gpgkey: https://download.copr.fedorainfracloud.org/results/codifryed/CoolerControl/pubkey.gpg
 #     enabled: true 
+
+# - name: Copr XONE repo
+#   become_user: root
+#   ansible.builtin.yum_repository:
+#     name: copr:copr.fedorainfracloud.org:raymondbaker:xone-dlundqvist
+#     description: Copr repo for xone-dlundqvist owned by raymondbaker
+#     baseurl: https://download.copr.fedorainfracloud.org/results/raymondbaker/xone-dlundqvist/fedora-$releasever-$basearch/
+#     gpgkey: https://download.copr.fedorainfracloud.org/results/raymondbaker/xone-dlundqvist/pubkey.gpg
+#     enabled: true  
+
+# - name: Enable RPM Fusion repositories
+#   become_user: root
+#   ansible.builtin.dnf:
+#     name:
+#       - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{  fedora_ver }}.noarch.rpm
+#       - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ fedora_ver }}.noarch.rpm
+#     state: present

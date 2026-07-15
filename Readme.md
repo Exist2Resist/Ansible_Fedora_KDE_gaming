@@ -65,10 +65,10 @@ git clone https://github.com/Exist2Resist/Ansible_Fedora_KDE_gaming.git
 cd Ansible_Fedora_KDE_gaming
 ```
 
-You need to be logged into a Wayland session after a fresh install, which by default you are, and run the x11 installation first.
+You need to be logged into a Wayland session after a fresh install, which by default you are, and run the x11/xlibre installation first.
 You can check what session you are logged into by running the following in a Terminal shell: `echo $XDG_SESSION_TYPE`, if it is `Wayland` run the following.
 ```bash
-ansible-playbook fedora_x11_install.yaml -K
+ansible-playbook fedora_xlibre_install.yaml -K
 ```
 
 Logout of the Wayland session and log into a x11 session then run one of these. 

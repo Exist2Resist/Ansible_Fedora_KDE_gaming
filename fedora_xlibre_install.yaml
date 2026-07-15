@@ -1,13 +1,13 @@
 ---
-- name: X11 setup
+- name: Xlibre setup
   hosts: localhost
   become: true
   become_user: "{{ lookup('ansible.builtin.env', 'USER') }}"
   become_method: ansible.builtin.sudo
   gather_facts: true
   tasks:
-    - name: X11 installation
-      ansible.builtin.include_tasks: tasks/x11.yaml
+    - name: Xlibre installation
+      ansible.builtin.include_tasks: tasks/Xlibre.yaml
 
   handlers: 
     - name: Reboot
