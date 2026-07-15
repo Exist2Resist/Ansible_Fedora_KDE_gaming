@@ -7,7 +7,7 @@
   ansible.builtin.shell: dnf list --installed plasma-workspace-x11 | awk -F"." 'NR==2 {print $1}'
   register: x11_installation
 
-- name: Install X11 in KDE (Better for Gaming)
+- name: Install Xlibre in KDE (Better for Gaming)
   become_user: root
   ansible.builtin.dnf:
     name:
