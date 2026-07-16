@@ -23,6 +23,18 @@
     regexp: '^(GRUB_CMDLINE_LINUX=(?!.*nvidia-drm.modset=1).*)"$'
     line: '\1 nvidia-drm.modset=1"'
 
+- name: Set nvidia OC script permission 
+  become_user: root
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    mode: '0600'
+    owner: "{{ os_user }}"
+    group: "{{ os_user }}"
+    line: |
+      ## Allow GPU OC python script to be executed without password prompt at login
+      {{ os_user }} ALL=(ALL) NOPASSWD: /usr/bin/python {{ user_home }}/nvidia-oc.py
+  when: overclock == enabled
+
 - name: Set rd.driver.blacklist
   become_user: root
   ansible.builtin.lineinfile:

@@ -59,6 +59,7 @@
       - kmod-v4l2loopback #obs virtual camera
       - coolercontrol
       - vivaldi-stable
+      - nvidia-xconfig
 
 - name: Install Gaming Flatpaks
   community.general.flatpak:
@@ -75,6 +76,18 @@
     name: 
       - com.github.dail8859.NotepadNext
       - org.localsend.localsend_app
+
+# nvidia oc
+- name: Set nvidia coolbits for overclocking
+  ansible.builtin.shell: |
+    sudo nvidia-xconfig --cool-bits=8
+  when: overclock == enabled
+
+- name: Install nvidia-ml-py
+  ansible.builtin.shell: |
+    python3 -m pip install --upgrade pip
+    pip install nvidia-ml-py
+  when: overclock == enabled
 
 # rnnoise 
 - name: Create rnnoise directory if it does not exist
@@ -117,7 +130,7 @@
 - name: Restart pipewire and cleanup # need to add check for latest version
   become_user: root
   ansible.builtin.shell: |
-    systemctl restart --user pipewire.service
+    systemctl restart --user pipewire.service wireplumber.service
 
 - name: Cleanup directories and files
   ansible.builtin.file: 
