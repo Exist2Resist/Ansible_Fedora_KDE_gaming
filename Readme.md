@@ -1,18 +1,22 @@
-# WARNING!
+# DEPRECATION WARNING
+
+This branch is no longer maintained here, for an up to date version head over to https://git.existtoresist.ca/ExistToResist/Ansible-FedoraKDE-Gaming
+
+## WARNING!
 
 This is the new version of the script which aims to replace RPMfusion nvidia drivers with drivers from an Nvidia repo.
 Be warned this script has not been tested and is a work in progress.
 
-# Installation
+## Installation
 
 A demo installation is available on Youtube.<br>
 https://youtu.be/fRCUcSbjNZo
 
-# Info
+## Info
 
 This Ansible play is used to setup Fedora KDE for a gaming scenario. It installs drivers and sets the OS up for gaming. It installs the XBOX wireless dongle driver and performs various OS tweaks to give the system the best performance.
 
-## Assumptions
+### Assumptions
 
 This playbook is created to run on Intel and Nvidia systems with secure boot. It should also run on AMD systems, having said that I am not interested in AMD so this is not written for one. You need to be logged in to a X11 and not Wayland session, hence Fedora KDE. Wayland sucks and it doesn't render applications properly, doesn't matter if you're on Nvidia or AMD GPUs. If you think otherwise you are clearly NOT a power user. Albeit Wayland sucks even more on Nvidia than AMD GPUs. Install the OS with secure boot enabled. 
 
@@ -22,16 +26,16 @@ A lot of windows/games fail to render properly in Wayland hence the existence of
 **TLDR:**
 This script requires the followin X11, Intel CPU, and Nvidia GPU, and Secure boot.
 
-## Black screen during installation
+### Black screen during installation
 
 Sometimes when booting into the graphical installer you will encounter a continuous black screen and the installer will never load.
 During the grub selection screen move the up down arrows on the keyboard to stop the grub timer, then highlight the option to install and press `e` on the keyboard. Move down to the line that starts with `linux` and at the end of it add `nomodeset` then press `ctrl + x` on the keyboard to boot. This should fix the graphical installer black screen/not booting. 
 
-## Mok enrollment
+### Mok enrollment
 
 The default mok enrollment password is `Secret` and this is set in the `vars/vars.yaml` file. 
 
-# Ansible for Fedora customization
+## Ansible for Fedora customization
 
 Install ansible and prerequisites:
 ```bash
@@ -49,7 +53,7 @@ python3 -m pip install --upgrade --user ansible
 
 To specify a password for sudo, run ansible-playbook with `--ask-become-pass` (`-K` for short). If you run a playbook utilizing become and the playbook seems to hang, most likely it is stuck at the privilege escalation prompt. Stop it with `CTRL-c`, then execute the playbook with `-K` and the appropriate password.
 
-## Testing a playbook
+### Testing a playbook
 
 Using a `--check` command can test a playbook without making changes. Mind you this is not a good representation of what the playbook will do. 
 
@@ -57,7 +61,7 @@ Using a `--check` command can test a playbook without making changes. Mind you t
 ansible-playbook my_playbook.yaml --check -K
 ```
 
-## Running the playbooks
+### Running the playbooks
 
 Open a shell terminal and do the following
 ```bash
